@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.daifubackend.api.mapper.DepositMapper">
+
+
+
+    <select id="list" parameterType="java.util.Map" resultType="com.daifubackend.api.pojo.Deposit">
+        select * from wd_deposit
+        <where>
+            <if test="merchant_id!=null">
+                merchant_id=#{merchant_id}
+            </if>
+
+            <if test="flags!=null">
+                and flags=#{flags}
+            </if>
+
+            <if test="state!=null">
+                and state = #{state}
+            </if>
+
+            <if test="st!=null">
+                and created_at &gt;= #{st}
+            </if>
+
+            <if test="et!=null">
+                and created_at &lt;= #{et}
+            </if>
+
+            <if test="amount_min!=null">
+                and amount &gt;= #{amount_min}
+            </if>
+
+            <if test="amount_max!=null">
+                and amount &lt;= #{amount_max}
+            </if>
+        </where>
+        order by created_at desc
+    </select>
+
+    <select id="listByAgent" resultType="com.daifubackend.api.pojo.Deposit">
+
+        select * from wd_deposit d
+        left join wd_merchant m on d.merchant_id = m.id
+        <where>
+            <if test="merchant_id!=null">
+                d.merchant_id=#{merchant_id}
+            </if>
+
+            <if test="flags!=null">
+                and d.flags=#{flags}
+            </if>
+
+            <if test="state!=null">
+                and d.state = #{state}
+            </if>
+
+            <if test="st!=null">
+                and d.created_at &gt;= #{st}
+            </if>
+
+            <if test="et!=null">
+                and d.created_at &lt;= #{et}
+            </if>
+
+            <if test="amount_min!=null">
+                and d.amount &gt;= #{amount_min}
+            </if>
+
+            <if test="amount_max!=null">
+                and d.amount &lt;= #{amount_max}
+            </if>
+            and m.agent_id = #{agent_id}
+        </where>
+        order by d.created_at desc
+
+    </select>
+
+    <select id="getByCondition" parameterType="java.util.Map" resultType="com.daifubackend.api.pojo.Deposit">
+        select * from wd_deposit
+        <where>
+            <if test="merchant_id!=null">
+                merchant_id=#{merchant_id}
+            </if>
+
+            <if test="flags!=null">
+                and flags=#{flags}
+            </if>
+
+            <if test="state!=null">
+                and state = #{state}
+            </if>
+
+            <if test="order_no!=null">
+                and order_no = #{order_no}
+            </if>
+
+            <if test="channel_id!=null">
+                and channel_id = #{channel_id}
+            </if>
+
+            <if test="sent_notify_cnt!=null">
+                and sent_notify_cnt = #{sent_notify_cnt}
+            </if>
+        </where>
+        order by created_at desc
+        limit 1
+    </select>
+
+    <!--更新员工信息-->
+    <update id="update">
+
+        UPDATE wd_deposit
+        <set>
+            <if test="amount!=null">amount=#{amount},</if>
+            <if test="flags!=null">flags=#{flags},</if>
+            <if test="merchant_id!=null">merchant_id=#{merchant_id},</if>
+            <if test="created_at!=null">created_at=#{created_at},</if>
+            <if test="created_ip!=null and created_ip!=''">created_ip=#{created_ip},</if>
+            <if test="review_at!=null">review_at=#{review_at},</if>
+            <if test="review_by_name!=null and review_by_name!=''">review_by_name=#{review_by_name},</if>
+            <if test="created_by_uid!=null">created_by_uid=#{created_by_uid},</if>
+            <if test="created_by_name!=null and created_by_name!=''">created_by_name=#{created_by_name},</if>
+            <if test="review_remark!=null and review_remark!=''">review_remark=#{review_remark},</if>
+            <if test="api_request_json!=null and api_request_json!=''">api_request_json=#{api_request_json},</if>
+            <if test="channel_request_json!=null and channel_request_json!=''">channel_request_json=#{channel_request_json},</if>
+            <if test="channel_response_json!=null and channel_response_json!=''">channel_response_json=#{channel_response_json},</if>
+            <if test="channel_notify_resp_json!=null and channel_notify_resp_json!=''">channel_notify_resp_json=#{channel_notify_resp_json},</if>
+            <if test="sent_notify_cnt!=null and sent_notify_cnt!=''">sent_notify_cnt=#{sent_notify_cnt},</if>
+            <if test="order_no!=null and order_no!=''">order_no=#{order_no},</if>
+            <if test="channel_id!=null and channel_id!=''">channel_id=#{channel_id},</if>
+            <if test="state!=null">state=#{state},</if>
+        </set>
+        WHERE id=#{id};
+    </update>
+</mapper>

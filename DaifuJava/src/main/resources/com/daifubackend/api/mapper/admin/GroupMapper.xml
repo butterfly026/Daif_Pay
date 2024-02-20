@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.daifubackend.api.mapper.admin.GroupMapper">
+
+    <!--更新员工信息-->
+    <update id="update">
+
+        UPDATE wd_admin_group
+        <set>
+            <if test="gname!=null and gname!=''">gname=#{gname},</if>
+            <if test="permission!=null and permission!=''">permission=#{permission},</if>
+            <if test="created_at!=null">create_at=#{create_at},</if>
+            <if test="noted!=null and noted!=''">noted=#{noted},</if>
+            <if test="pid!=null">pid=#{pid},</if>
+            <if test="state!=null">state=#{state},</if>
+        </set>
+        WHERE gid=#{gid};
+    </update>
+</mapper>

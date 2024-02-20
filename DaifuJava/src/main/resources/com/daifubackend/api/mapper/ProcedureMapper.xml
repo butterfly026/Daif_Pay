@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.daifubackend.api.mapper.ProcedureMapper">
+
+    <parameterMap id="getCreateOrderMap" type="Map">
+        <parameter property="merc_id" jdbcType="VARCHAR" javaType="String" mode="IN"/>
+        <parameter property="in_orderType" jdbcType="INTEGER" javaType="Integer" mode="IN"/>
+        <parameter property="in_amount" jdbcType="DECIMAL" javaType="Float" mode="IN"/>
+        <parameter property="in_fee" jdbcType="DECIMAL" javaType="Float" mode="IN"/>
+        <parameter property="in_callback_url" jdbcType="VARCHAR" javaType="String" mode="IN"/>
+        <parameter property="in_merchant_serial" jdbcType="VARCHAR" javaType="String" mode="IN"/>
+        <parameter property="in_merchant_name" jdbcType="VARCHAR" javaType="String" mode="IN"/>
+        <parameter property="in_created_ip" jdbcType="VARCHAR" javaType="String" mode="IN"/>
+        <parameter property="in_channel_id" jdbcType="BIGINT" javaType="String" mode="IN"/>
+        <parameter property="in_bank_type_name" jdbcType="VARCHAR" javaType="String" mode="IN"/>
+        <parameter property="in_bank_name" jdbcType="VARCHAR" javaType="String" mode="IN"/>
+        <parameter property="in_bank_card" jdbcType="VARCHAR" javaType="String" mode="IN"/>
+        <parameter property="in_bank_opening" jdbcType="VARCHAR" javaType="String" mode="IN"/>
+        <parameter property="in_ord_state" jdbcType="INTEGER" javaType="Integer" mode="IN"/>
+        <parameter property="in_cash_type" jdbcType="INTEGER" javaType="Integer" mode="IN"/>
+        <parameter property="in_cash_sub_type" jdbcType="INTEGER" javaType="Integer" mode="IN"/>
+    </parameterMap>
+
+    <select id="createOrder" parameterMap="getCreateOrderMap" resultType="Map" statementType="CALLABLE">
+        { call createOrder(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)}
+    </select>
+
+    <parameterMap id="creditProcedureMap" type="Map">
+        <parameter property="merc_id" jdbcType="VARCHAR" javaType="String" mode="IN"/>
+        <parameter property="order_id" jdbcType="VARCHAR" javaType="String" mode="IN"/>
+        <parameter property="in_amount" jdbcType="DECIMAL" javaType="Float" mode="IN"/>
+        <parameter property="in_fee" jdbcType="DECIMAL" javaType="Float" mode="IN"/>
+        <parameter property="in_cash_type" jdbcType="INTEGER" javaType="Integer" mode="IN"/>
+        <parameter property="in_cash_sub_type" jdbcType="INTEGER" javaType="Integer" mode="IN"/>
+        <parameter property="plus" jdbcType="VARCHAR" javaType="String" mode="IN"/>
+    </parameterMap>
+
+    <select id="creditProcedure" parameterMap="creditProcedureMap" resultType="Map" statementType="CALLABLE">
+        { call creditProcedure(?, ?, ?, ?, ?, ?, ?)}
+    </select>
+
+</mapper>

@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.daifubackend.api.mapper.admin.MerchantMapper">
+
+
+
+    <select id="list" resultType="com.daifubackend.api.pojo.admin.Merchant">
+        select * from wd_merchant
+        <where>
+            <if test="name!=null and name!=''">
+                name like concat('%',#{name},'%')
+            </if>
+
+            <if test="state!=null">
+                and state = #{state}
+            </if>
+
+            <if test="channel_id!=null">
+                and channel_id = #{channel_id}
+            </if>
+
+        </where>
+        order by created_at desc
+    </select>
+
+    <select id="listForAgent" resultType="com.daifubackend.api.pojo.admin.Merchant">
+        select * from wd_merchant
+        <where>
+            <if test="name!=null and name!=''">
+                name like concat('%',#{name},'%')
+            </if>
+
+            <if test="state!=null">
+                and state = #{state}
+            </if>
+
+            <if test="channel_id!=null">
+                and channel_id = #{channel_id}
+            </if>
+            and agent_id = #{agent_id}
+        </where>
+        order by created_at desc
+    </select>
+
+    <!--批量删除员工信息-->
+    <delete id="delete">
+        delete from wd_merchant where id in
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <!--更新员工信息-->
+    <update id="update">
+
+        UPDATE wd_merchant
+        <set>
+            <if test="channel_id!=null">channel_id=#{channel_id},</if>
+            <if test="name!=null and name!=''">name=#{name},</if>
+            <if test="agent_id!=null">agent_id=#{agent_id},</if>
+            <if test="agent_ratio!=null">agent_ratio=#{agent_ratio},</if>
+            <if test="ppk!=null and ppk!=''">ppk=#{ppk},</if>
+            <if test="balance!=null">balance=#{balance},</if>
+            <if test="withdraw_fee!=null">withdraw_fee=#{withdraw_fee},</if>
+            <if test="withdraw_scale!=null">withdraw_scale=#{withdraw_scale},</if>
+            <if test="deposit_bank_fee!=null">deposit_bank_fee=#{deposit_bank_fee},</if>
+            <if test="m_single_withdraw!=null">m_single_withdraw=#{m_single_withdraw},</if>
+            <if test="m_batch_withdraw!=null">m_batch_withdraw=#{m_batch_withdraw},</if>
+            <if test="api_withdraw!=null">api_withdraw=#{api_withdraw},</if>
+            <if test="remarks!=null and remarks!=''">remarks=#{remarks},</if>
+            <if test="created_at!=null">created_at=#{created_at},</if>
+            <if test="state!=null">state=#{state},</if>
+            <if test="confirm!=null">confirm=#{confirm},</if>
+            <if test="min_limit!=null">min_limit=#{min_limit},</if>
+            <if test="max_limit!=null">max_limit=#{max_limit},</if>
+            <if test="need_reverse_check!=null">need_reverse_check=#{need_reverse_check},</if>
+        </set>
+        WHERE id=#{id};
+    </update>
+</mapper>

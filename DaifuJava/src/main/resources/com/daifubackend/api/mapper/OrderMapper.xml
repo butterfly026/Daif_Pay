@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.daifubackend.api.mapper.OrderMapper">
+
+    <select id="list" resultType="com.daifubackend.api.pojo.Order">
+        select * from wd_orders
+        <where>
+            <if test="st!=null and st!=''">
+                substr(created_at,1,10)>=#{st}
+            </if>
+
+            <if test="et!=null and et!=''">
+                and substr(created_at,1,10)&lt;=#{et}
+            </if>
+
+            <if test="order_id!=null">
+                and order_id = #{order_id}
+            </if>
+
+            <if test="cash_type!=null">
+                and cash_type = #{cash_type}
+            </if>
+
+            <if test="merchant_id!=null">
+                and merchant_id = #{merchant_id}
+            </if>
+
+            <if test="merchant_serial!=null">
+                and merchant_serial = #{merchant_serial}
+            </if>
+
+        </where>
+        order by created_at desc
+    </select>
+
+    <select id="listByAgent" resultType="com.daifubackend.api.pojo.Order">
+        select * from wd_orders o
+        left join wd_merchant m on o.merchant_id = m.id
+        <where>
+            <if test="st!=null and st!=''">
+                substr(o.created_at,1,10)>=#{st}
+            </if>
+
+            <if test="et!=null and et!=''">
+                and substr(o.created_at,1,10)&lt;=#{et}
+            </if>
+
+            <if test="order_id!=null">
+                and o.order_id = #{order_id}
+            </if>
+
+            <if test="cash_type!=null">
+                and o.cash_type = #{cash_type}
+            </if>
+
+            <if test="merchant_id!=null">
+                and o.merchant_id = #{merchant_id}
+            </if>
+
+            <if test="merchant_serial!=null">
+                and o.merchant_serial = #{merchant_serial}
+            </if>
+            and m.agent_id = #{agent_id}
+        </where>
+        order by o.created_at desc
+    </select>
+
+    <!--批量删除员工信息-->
+    <delete id="delete">
+        delete from wd_orders where uid = #{uid}
+    </delete>
+
+    <!--更新员工信息-->
+    <update id="update">
+
+        UPDATE wd_orders
+        <set>
+            <if test="flags!=null">flags=#{flags},</if>
+            <if test="channel_id!=null">channel_id=#{channel_id},</if>
+            <if test="merchant_serial!=null and merchant_serial!=''">merchant_serial=#{merchant_serial},</if>
+            <if test="merchant_id!=null">merchant_id=#{merchant_id},</if>
+            <if test="merchant_name!=null and merchant_name!=''">merchant_name=#{merchant_name},</if>
+            <if test="apply_amount!=null">apply_amount=#{apply_amount},</if>
+            <if test="actually_amount!=null">actually_amount=#{actually_amount},</if>
+            <if test="fee!=null">fee=#{fee},</if>
+            <if test="created_at!=null">created_at=#{created_at},</if>
+            <if test="created_ip!=null and created_ip!=''">created_ip=#{created_ip},</if>
+            <if test="bank_type_name!=null and bank_type_name!=''">bank_type_name=#{bank_type_name},</if>
+            <if test="bank_name!=null and bank_name!=''">bank_name=#{bank_name},</if>
+            <if test="bank_card!=null and bank_card!=''">bank_card=#{bank_card},</if>
+            <if test="bank_opening!=null and bank_opening!=''">bank_opening=#{bank_opening},</if>
+            <if test="callback_url!=null and callback_url!=''">callback_url=#{callback_url},</if>
+            <if test="state!=null">state=#{state},</if>
+            <if test="review_by_uid!=null">review_by_uid=#{review_by_uid},</if>
+            <if test="review_at!=null">review_at=#{review_at},</if>
+            <if test="review_by_name!=null and review_by_name!=''">review_by_name=#{review_by_name},</if>
+            <if test="notify_state!=null">notify_state=#{notify_state},</if>
+            <if test="err!=null and err!=''">err=#{err},</if>
+        </set>
+        WHERE id=#{id};
+    </update>
+
+</mapper>

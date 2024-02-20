@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.daifubackend.api.mapper.ApiWhitelistMapper">
+
+
+
+    <select id="list" parameterType="java.util.Map" resultType="com.daifubackend.api.pojo.WhiteApi">
+        select * from wd_api_whitelist
+        <where>
+            <if test="merchant_id!=null">
+                merchant_id=#{merchant_id}
+            </if>
+            <if test="ip!=null and ip!=''">
+                ip like concat(concat('%',#{ip}),'%')
+            </if>
+        </where>
+        order by created_at desc
+    </select>
+
+
+    <!--更新员工信息-->
+    <update id="update">
+
+        UPDATE wd_api_whitelist
+        <set>
+            <if test="ip!=null and ip!=''">ip=#{ip},</if>
+            <if test="merchant_id!=null">merchant_id=#{merchant_id},</if>
+            <if test="created_at!=null">created_at=#{created_at},</if>
+            <if test="created_by_name!=null and created_by_name!=''">created_by_name=#{created_by_name},</if>
+            <if test="created_by_uid!=null">created_by_uid=#{created_by_uid},</if>
+        </set>
+        WHERE id=#{id};
+    </update>
+</mapper>

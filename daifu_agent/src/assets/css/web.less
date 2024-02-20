@@ -1,0 +1,103 @@
+@import 'base.less';
+@import 'color.less';
+
+body {
+  font-size: 14px;
+}
+html,
+#app,
+body {
+  overflow: inherit;
+  height: 100%;
+}
+// ::-webkit-scrollbar {
+//   width: 0;
+// }
+input::-webkit-input-placeholder {
+  color: #d9d9d8;
+  font-size: 12px;
+}
+input:-internal-autofill-previewed,
+input:-internal-autofill-selected {
+  // -webkit-text-fill-color: #FFFFFF !important;
+  transition: background-color 5000s ease-in-out 0s !important;
+}
+
+/**fs12  fs24 */
+.font(@i) when(@i <= 24) {
+  .fs@{i} {
+    font-size: @i + 0px !important;
+  }
+  .font((@i + 2));
+}
+
+.font(12);
+
+@sizes: 4, 5, 8, 10, 12, 15, 16, 20, 24, 30, 40, 45, 50;
+
+/**
+ * 定义循环方法
+ * @layout--传入的循环起始值
+ * @len--循环的最大值  也可使用常量  eg:(@layout<4)
+ */
+.Loop(@index) when(@index <= length(@sizes)) {
+  // 执行内容
+  // 类名参数要加大括号@{layout}
+  // 根据index获取对应的某个值 extract(数组名, 对应的序号)
+  @size: extract(@sizes, @index);
+  .mg-@{size} {
+    margin: @size + 0px !important;
+  }
+
+  .m-t@{size} {
+    margin-top: @size + 0px !important;
+  }
+
+  .m-r@{size} {
+    margin-right: @size + 0px !important;
+  }
+
+  .m-b@{size} {
+    margin-bottom: @size + 0px !important;
+  }
+
+  .m-l@{size} {
+    margin-left: @size + 0px !important;
+  }
+
+  .pd-@{size} {
+    padding: @size + 0px !important;
+  }
+
+  .p-t@{size} {
+    padding-top: @size + 0px !important;
+  }
+
+  .p-r@{size} {
+    padding-right: @size + 0px !important;
+  }
+
+  .p-b@{size} {
+    padding-bottom: @size + 0px !important;
+  }
+
+  .p-l@{size} {
+    padding-left: @size + 0px !important;
+  }
+
+  //递归调用 达到循环目的
+  .Loop(@index+1);
+}
+// 调用循环 less循环是从1开始
+.Loop(1);
+
+@height: 12, 20, 24, 30, 35, 40, 45;
+
+.LoopLh(@index) when(@index <= length(@height)) {
+  @size: extract(@height, @index);
+  .lh-@{size} {
+    line-height: @size + 0px !important;
+  }
+  .LoopLh(@index + 1);
+}
+.LoopLh(1);

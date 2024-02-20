@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.daifubackend.api.mapper.admin.ChannelMapper">
+
+
+
+    <select id="list" resultType="com.daifubackend.api.pojo.admin.Channel">
+
+        select id, name,
+        <if test="isValidAdmin!=null and isValidAdmin==true">
+            AES_DECRYPT(account, #{password}) as account,
+            AES_DECRYPT(ppk, #{password}) as ppk,
+            AES_DECRYPT(gateway, #{password}) as gateway,
+            AES_DECRYPT(other_info, #{password}) as other_info,
+        </if>
+        <if test="isValidAdmin==null or isValidAdmin==false">
+            '' as account, '' as ppk, '' as gateway,
+        </if>
+            notify_url, rate, created_at, state, proxy, shortname, idx
+        from wd_channel
+        <where>
+            <if test="name!=null and name!=''">
+                name like concat('%',#{name},'%')
+            </if>
+
+            <if test="state!=null">
+                and state = #{state}
+            </if>
+
+        </where>
+        order by created_at desc
+    </select>
+
+    <select id="getById">
+        select id, name,
+            AES_DECRYPT(account, #{password}) as account,
+            AES_DECRYPT(ppk, #{password}) as ppk,
+            AES_DECRYPT(gateway, #{password}) as gateway,
+            AES_DECRYPT(other_info, #{password}) as other_info,
+            notify_url, rate, created_at, state, proxy, shortname, idx
+        from wd_channel where id = #{id}
+    </select>
+
+    <select id="getMenus">
+        select id, name,
+            AES_DECRYPT(account, #{password}) as account,
+            AES_DECRYPT(ppk, #{password}) as ppk,
+            AES_DECRYPT(gateway, #{password}) as gateway,
+            AES_DECRYPT(other_info, #{password}) as other_info,
+            notify_url, rate, created_at, state, proxy, shortname, idx
+        from wd_channel
+    </select>
+
+    <insert id="insert">
+        insert into wd_channel( `id`, `name`, `account`, `ppk`, `gateway`, `rate`, `created_at`, `state`, `notify_url`, `proxy`, `shortname`, `other_info`)
+        VALUES ( #{id}, #{name},
+            AES_ENCRYPT(#{account}, #{password}),
+            AES_ENCRYPT(#{ppk}, #{password}),
+            AES_ENCRYPT(#{gateway}, #{password}),
+        #{rate}, #{created_at}, #{state}, #{notify_url}, #{proxy}, #{shortname},
+            AES_DECRYPT(#{other_info}, #{password}))
+    </insert>
+    <!--批量删除员工信息-->
+    <delete id="delete">
+        delete from wd_channel where id in
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <!--更新员工信息-->
+    <update id="update">
+
+        UPDATE wd_channel
+        <set>
+            <if test="name!=null and name!=''">name=#{name},</if>
+            <if test="account!=null and account!=''">account=AES_ENCRYPT(#{account}, #{password}),</if>
+            <if test="ppk!=null and ppk!=''">ppk=AES_ENCRYPT(#{ppk}, #{password}), </if>
+            <if test="gateway!=null and gateway!=''">gateway=AES_ENCRYPT(#{gateway}, #{password}),</if>
+            <if test="rate!=null">rate=#{rate},</if>
+            <if test="created_at!=null">created_at=#{created_at},</if>
+            <if test="state!=null">state=#{state},</if>
+            <if test="notify_url!=null and notify_url!=''">notify_url=#{notify_url},</if>
+            <if test="proxy!=null and proxy!=''">proxy=#{proxy},</if>
+            <if test="shortname!=null and shortname!=''">shortname=#{shortname},</if>
+            <if test="other_info!=null and other_info!=''">other_info=AES_ENCRYPT(#{other_info}, #{password}),</if>
+        </set>
+        WHERE id=#{id};
+    </update>
+
+    <update id="updateEncByAdmin">
+
+        UPDATE wd_channel
+        <set>
+            <if test="newPassword!=null and newPassword!='' and oldPassword!=null and oldPassword!=''">
+                account=AES_ENCRYPT(AES_DECRYPT(account, #{oldPassword}), #{newPassword}),
+                ppk=AES_ENCRYPT(AES_DECRYPT(ppk, #{oldPassword}), #{newPassword}),
+                gateway=AES_ENCRYPT(AES_DECRYPT(gateway, #{oldPassword}), #{newPassword}),
+                other_info=AES_ENCRYPT(AES_DECRYPT(other_info, #{oldPassword}), #{newPassword}),
+            </if>
+        </set>
+    </update>
+
+    <select id="getChannelByCondition" parameterType="java.util.Map" resultType="com.daifubackend.api.pojo.admin.Channel">
+        select id, name,
+        <if test="isValidAdmin!=null and isValidAdmin==true">
+            AES_DECRYPT(account, #{password}) as account,
+            AES_DECRYPT(ppk, #{password}) as ppk,
+            AES_DECRYPT(gateway, #{password}) as gateway,
+            AES_DECRYPT(other_info, #{password}) as other_info,
+        </if>
+        <if test="isValidAdmin==null or isValidAdmin==false">
+            '' as account, '' as ppk, '' as gateway,
+        </if>
+        notify_url, rate, created_at, state, proxy, shortname, idx from wd_channel
+        <where>
+            <if test="name!=null and name!=''">
+                name = #{name}
+            </if>
+
+            <if test="shortname!=null and shortname!=''">
+                shortname = #{shortname}
+            </if>
+
+        </where>
+    </select>
+
+</mapper>

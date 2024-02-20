@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.daifubackend.api.mapper.TransactionMapper">
+
+
+
+    <select id="list" resultType="com.daifubackend.api.pojo.Transaction">
+        select * from wd_transaction
+        <where>
+            <if test="st!=null and st!=''">
+                substr(created_at,1,10)>=#{st}
+            </if>
+
+            <if test="et!=null and et!=''">
+                and substr(created_at,1,10)&lt;=#{et}
+            </if>
+
+            <if test="order_id!=null">
+                and order_id = #{order_id}
+            </if>
+
+            <if test="cash_type!=null">
+                and cash_type = #{cash_type}
+            </if>
+
+            <if test="merchant_id!=null">
+                and merchant_id = #{merchant_id}
+            </if>
+
+        </where>
+        order by created_at desc
+    </select>
+
+    <!--批量删除员工信息-->
+    <delete id="delete">
+        delete from wd_transaction where uid = #{uid}
+    </delete>
+
+    <!--更新员工信息-->
+    <update id="update">
+
+        UPDATE wd_transaction
+        <set>
+            <if test="order_id!=null and order_id!=''">order_id=#{order_id},</if>
+            <if test="before!=null">before=#{before},</if>
+            <if test="amount!=null">amount=#{amount},</if>
+            <if test="after!=null">after=#{after},</if>
+            <if test="merchant_id!=null">merchant_id=#{merchant_id},</if>
+            <if test="cash_type!=null">cash_type=#{cash_type},</if>
+            <if test="created_at!=null">created_at=#{created_at},</if>
+            <if test="remark!=null and remark!=''">remark=#{remark},</if>
+        </set>
+        WHERE id=#{id};
+    </update>
+
+    <select id="getMenu">
+        select id, name from wd_cash_type where menu=1
+    </select>
+</mapper>

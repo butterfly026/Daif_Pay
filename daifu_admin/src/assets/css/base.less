@@ -1,0 +1,185 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+html {
+  background: #f8f8f8;
+}
+body {
+  font-family: 'PingFangSC-Medium', 'Microsoft YaHei', 'Arial', 'Helvetica', 'sans-serif' !important;
+  color: #414655;
+  //font-size: 0.14rem;
+  background: #f8f8f8;
+}
+html,
+#app,
+body {
+  overflow: hidden;
+  height: 100%;
+}
+input,
+textarea,
+button {
+  outline: none;
+  border: 0;
+  vertical-align: middle;
+  background: none;
+  &::placeholder {
+    color: #999;
+  }
+}
+
+ul,
+ol,
+li {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.scroll-y {
+  overflow-y: scroll;
+}
+
+.scroll-x {
+  overflow-x: scroll;
+}
+
+.flex {
+  display: flex;
+}
+
+.fl {
+  float: left;
+}
+
+.fr {
+  float: right;
+}
+
+.clear {
+  clear: both;
+}
+
+.left {
+  text-align: left;
+}
+
+.center {
+  text-align: center;
+}
+
+.right {
+  text-align: right;
+}
+
+.cursor {
+  cursor: pointer;
+}
+
+.over-hidden {
+  overflow: hidden !important;
+}
+
+.re {
+  position: relative !important;
+}
+
+.ab {
+  position: absolute !important;
+}
+
+.w100 {
+  width: 100%;
+}
+
+.h100 {
+  height: 100%;
+}
+
+.block {
+  display: block;
+}
+
+.radius50 {
+  border-radius: 50%;
+}
+
+.bold {
+  font-weight: 700 !important;
+}
+
+//垂直水平居中
+.flex-middle {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+
+// 水平分布
+.flex-middle-only {
+  display: flex;
+  align-items: center;
+}
+
+// 两端对齐
+.flex-between {
+  display: flex;
+  justify-content: space-between;
+}
+
+.flex-around {
+  display: flex;
+  justify-content: space-around;
+}
+
+.flex-end {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.flex-start {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.flex-1 {
+  flex: 1 !important;
+}
+
+.flex-column {
+  flex-direction: column;
+}
+
+// 绝对定位 相对父元素垂直居中
+.ab-middle {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.ab-middle-x {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.ab-middle-y {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.hide-scroll-bar {
+  &::-webkit-scrollbar {
+    width: 1px;
+  }
+}
